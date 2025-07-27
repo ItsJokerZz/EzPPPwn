@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Title>EzPPPwn</Title>
+    <Authors>ItsJokerZz, TheFlow</Authors>
+    <Description>A PS4 PPPoE RCE by TheFlow to run payloads, in this case jailbreak / enable HEN.</Description>
+    <RepositoryUrl>https://www.Github.com/ItsJokerZz/EzPPPwn</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ps4;exploit;vtx;vtx-hen;ps4-hen;goldhen;hen;jailbreak;exploit;pppoe;pppwn;rce</PackageTags>
+    <Copyright>GPL-2.0 license</Copyright>
+    <PackageProjectUrl>https://www.itsjokerzz.site</PackageProjectUrl>
+    <SignAssembly>False</SignAssembly>
+    <NuGetAudit>True</NuGetAudit>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <PackageIcon>logo.png</PackageIcon>
+    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="npcap-1.79.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Chapter.Net.WPF.SystemTray" Version="2.1.0" />
+    <PackageReference Include="DarkNet" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\logo.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
