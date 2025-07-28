@@ -40,12 +40,19 @@ public partial class MainWindow : Window
     #region Initialization Methods
     private void LoadSettings()
     {
-        ethAdapterName = Properties.Settings.Default.Adapter ?? string.Empty;
-        firmware = Properties.Settings.Default.Firmware ?? "11.00";
+        ethAdapterName = Properties.Settings.Default.Adapter ?? NetworkAdapterComboBox.Text;
+        firmware = Properties.Settings.Default.Firmware ?? FirmwareComboBox.Text;
         autoRetry = Properties.Settings.Default.AutoRetry;
         useBetaPPPwn = Properties.Settings.Default.PPPwnBeta;
         useGoldHEN = Properties.Settings.Default.GoldHEN;
-        stage2Path = Properties.Settings.Default.Stage2;
+        stage2Path = Properties.Settings.Default.Stage2 ?? string.Empty;
+
+        SaveSetting(nameof(Properties.Settings.Default.Firmware), firmware);
+        SaveSetting(nameof(Properties.Settings.Default.Adapter), ethAdapterName);
+        SaveSetting(nameof(Properties.Settings.Default.AutoRetry), autoRetry);
+        SaveSetting(nameof(Properties.Settings.Default.PPPwnBeta), useBetaPPPwn);
+        SaveSetting(nameof(Properties.Settings.Default.GoldHEN), useGoldHEN);
+        SaveSetting(nameof(Properties.Settings.Default.Stage2), stage2Path);
     }
 
     private void InitializeSysTray()
