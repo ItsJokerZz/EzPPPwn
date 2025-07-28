@@ -4,7 +4,7 @@
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="EzPPPwn.MainWindow"
         xmlns:chapter="clr-namespace:Chapter.Net.WPF.SystemTray;assembly=Chapter.Net.WPF.SystemTray"
         Title="EzPPPwn by ItsJokerZz" Height="510" Width="764"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
         Background="{DynamicResource ColorDarkBrush}">
 
     <Window.Resources>
