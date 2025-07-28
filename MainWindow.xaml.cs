@@ -206,6 +206,16 @@ public partial class MainWindow : Window
         startStopMenuItem.Header = isRunning ? "Stop" : "Start";
         ProcessButton.Content = isRunning ? "Stop Process" : "Start Process";
     }
+
+    private void SetControlsEnabled(bool enabled)
+    {
+        NetworkAdapterComboBox.IsEnabled = enabled;
+        FirmwareComboBox.IsEnabled = enabled;
+        AutoRetryCheckBox.IsEnabled = enabled;
+        UseBetaCheckBox.IsEnabled = enabled;
+        VtxCheckBox.IsEnabled = enabled;
+        OverrideStage2Button.IsEnabled = enabled;
+    }
     #endregion
 
     #region Event Handlers
@@ -396,11 +406,13 @@ public partial class MainWindow : Window
             SetProgress(0);
             isRunning = false;
             UpdateRunningStateUI();
+            SetControlsEnabled(true);
             return;
         }
 
         isRunning = true;
         UpdateRunningStateUI();
+        SetControlsEnabled(false);
 
         SetProgress(0);
         LogBox.Text = string.Empty;
@@ -468,6 +480,7 @@ public partial class MainWindow : Window
                 isRunning = false;
                 SetProgress(0);
                 UpdateRunningStateUI();
+                SetControlsEnabled(true);
             });
 
             tcs.SetResult(null);
