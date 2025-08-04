@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace EzPPPwn;
@@ -98,10 +99,23 @@ public partial class MainWindow : Window
             Environment.Exit(0);
         };
 
+        _icon.DoubleClick += (s, e) =>
+        {
+            if (WindowState == WindowState.Minimized || !IsVisible)
+            {
+                Show();
+                WindowState = WindowState.Normal;
+            }
+
+            Activate();
+            Focus();
+        };
+
         _icon.Show();
 
         UpdateRunningStateUI();
     }
+
 
     private void SetupEventHandlers()
     {
@@ -457,6 +471,8 @@ public partial class MainWindow : Window
 
         new ToastContentBuilder().AddText("The PPPwn process has begun.").Show();
 
+        bool completed = false;
+
         async void OutputHandler(object _, DataReceivedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.Data)) return;
@@ -474,12 +490,13 @@ public partial class MainWindow : Window
 
                 AppendLog($"{DateTime.Now:HH:mm:ss}: {e.Data}");
 
+                if (e.Data.Contains("Done!"))
+                    completed = true;
+
                 if (e.Data.Contains("SYNOPSIS"))
                 {
                     if (!process.HasExited)
                         process.Kill();
-
-                    new ToastContentBuilder().AddText("The PPPwn process has completed!").Show();
                 }
             });
         }
@@ -507,6 +524,9 @@ public partial class MainWindow : Window
         process.BeginErrorReadLine();
 
         await tcs.Task;
+
+        if (completed)
+            new ToastContentBuilder().AddText("The PPPwn process has completed!").Show();
     }
 
 }
