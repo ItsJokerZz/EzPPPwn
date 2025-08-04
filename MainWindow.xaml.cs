@@ -1,5 +1,6 @@
 ﻿using Chapter.Net.WPF.SystemTray;
 using Dark.Net;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shell;
+using System.Windows.Threading;
 
 namespace EzPPPwn;
 
@@ -104,6 +105,15 @@ public partial class MainWindow : Window
 
     private void SetupEventHandlers()
     {
+        ToastNotificationManagerCompat.OnActivated += toastArgs =>
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var args = toastArgs.Argument;
+                var userInput = toastArgs.UserInput;
+            });
+        };
+
         FirmwareComboBox.SelectionChanged += OnFirmware_Changed;
         NetworkAdapterComboBox.SelectionChanged += OnAdapter_Changed;
         AutoRetryCheckBox.Checked += AutoRetryCheckBox_Checked;
@@ -198,7 +208,7 @@ public partial class MainWindow : Window
         {
             LogBox.UpdateLayout();
             LogBox.ScrollToEnd();
-        }, System.Windows.Threading.DispatcherPriority.Render);
+        }, DispatcherPriority.Render);
     }
 
     private void UpdateRunningStateUI()
@@ -445,6 +455,8 @@ public partial class MainWindow : Window
             }
         };
 
+        new ToastContentBuilder().AddText("The PPPwn process has begun.").Show();
+
         async void OutputHandler(object _, DataReceivedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.Data)) return;
@@ -463,8 +475,12 @@ public partial class MainWindow : Window
                 AppendLog($"{DateTime.Now:HH:mm:ss}: {e.Data}");
 
                 if (e.Data.Contains("SYNOPSIS"))
+                {
                     if (!process.HasExited)
                         process.Kill();
+
+                    new ToastContentBuilder().AddText("The PPPwn process has completed!").Show();
+                }
             });
         }
 
